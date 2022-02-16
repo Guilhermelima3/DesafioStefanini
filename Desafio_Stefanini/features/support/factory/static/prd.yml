@@ -1,0 +1,6 @@
+register_user:
+  :email: 'guilherme@qa.com'
+  :senha: 'senha123'
+  :name: 'Guilherme Marinho'
+
+

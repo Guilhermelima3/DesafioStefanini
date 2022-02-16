@@ -1,0 +1,40 @@
+<% def timestamps
+  date = Time.now.strftime('%Y%m%d').to_s
+  time = Time.now.strftime('%H-%M-%S').to_s
+  "#{date}_#{time}"
+end %>
+
+<% RUN_TSTAMPs = timestamps.freeze %>
+
+# Template
+default: -p json_report -p report_builder -p browser_chrome -p web -p prd
+chrome: -p json_report -p browser_chrome -p web -p prd -p report_builder
+chrome_headless: -p json_report -p chrome_headless -p web -p prd -p report_builder
+firefox: -p json_report -p browser_firefox -p web -p prd -p report_builder
+parallel: -p json_parallel -p chrome_headless -p web -p prd -p report_builder -p parallel_running --format ParallelTests::Cucumber::FailuresLogger --out cucumber_failures.log
+
+# Reports
+html_report: --format=pretty --format=html --out=reports/features_report_<%= RUN_TSTAMPs %>.html
+json_report: --format=pretty --format=json --out=reports/features_report_<%= RUN_TSTAMPs %>.json
+html_parallel: --format=pretty --format=html --out=reports/features_report_<%= ENV['TEST_ENV_NUMBER'] %>_<%= RUN_TSTAMPs %>.html
+json_parallel: --format=pretty --format=json --out=reports/features_report_<%= ENV['TEST_ENV_NUMBER'] %>_<%= RUN_TSTAMPs %>.json
+rerun: --format=rerun --out rerun.txt
+
+# Browsers
+browser_chrome: BROWSER=chrome
+browser_firefox: BROWSER=firefox
+chrome_headless : BROWSER=chrome_headless
+# Application
+web: APP=web
+
+# Targets
+prd:  TARGET=prd
+
+# Modo visual
+headless: HEADLESS=true
+
+# Parallel
+parallel_running: PARALLELRUNNING=true
+
+# Report Builder
+report_builder: REPORTBUILDER=true
