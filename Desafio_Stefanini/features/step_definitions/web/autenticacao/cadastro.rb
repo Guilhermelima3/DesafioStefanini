@@ -7,7 +7,6 @@ Entao("deverá ser exibido as informações do novo usuário") do
   @cadastro = $web_pages.cadastro
   expect(@cadastro.registered_users).to have_name_user
   expect(@cadastro.registered_users).to have_email_user
-  # expect(@cadastro.registered_users.email_user).to have_content /#{@user[:email]}/i
 end
 
 Quando("realizar cadastro {string}") do |tipo_erro|
